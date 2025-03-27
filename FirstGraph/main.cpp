@@ -40,22 +40,20 @@ int main()  {
                 case 1: {
                     cout << "Digite os vertices da aresta: ";
                     cin >> v1 >> v2;
-                    Aresta aresta(v1, v2);
-                    grafo.AdicionaAresta(aresta);
+                    grafo.AdicionaAresta(Aresta(v1, v2));
                     break;
                 }
                 case 2: {
                     cout << "Digite os vertices da aresta: ";
                     cin >> v1 >> v2;
-                    Aresta aresta2(v1, v2);
-                    grafo.RemoveAresta(aresta2);
+                    grafo.RemoveAresta(Aresta(v1, v2));
                     break;
                 }
                 case 3: {
                     cout << "Digite os vertices da aresta: ";
                     cin >> v1 >> v2;
-                    Aresta aresta3(v1, v2);
-                    cout << "Existe aresta entre " << aresta3.v1 << " e " << aresta3.v2 << "? " << (grafo.ExisteAresta(aresta3) ? "true" : "false") << endl;
+                    Aresta aresta(v1, v2);
+                    cout << "Existe aresta entre " << aresta.v1 << " e " << aresta.v2 << "? " << (grafo.ExisteAresta(aresta) ? "true" : "false") << endl;
                     break;
                 }
                 case 4:  {

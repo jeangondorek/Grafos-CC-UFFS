@@ -60,21 +60,19 @@ void FirstGraph::PrintGraph() {
         for (int j = 0; j < num_vertices_; j++) {
             if (matriz_adj_[i][j] == 1) {
                 if (!temVizinho) {
-                    cout << i; // Imprime o vértice apenas uma vez
+                    cout << i;
                     temVizinho = true;
                 }
                 cout << " -> " << j;
             }
         }
         if (temVizinho) {
-            cout << endl; // Finaliza a linha apenas se o vértice tiver vizinhos
+            cout << endl;
         }
     }
 }
+
 void FirstGraph::DestroyGraph(){
-    for (int i = 0; i < num_vertices_; i++){
-        matriz_adj_[i].clear();
-    }
     matriz_adj_.clear();
     num_vertices_ = 0;
     num_arestas_ = 0;
@@ -82,7 +80,7 @@ void FirstGraph::DestroyGraph(){
 
 void FirstGraph::ExistePasseio(){
     int p1, p2, p3, p4, p5;
-    cout << "Existe passeio de 5 elementos" << endl;
+    cout << "Digite 5 elementos para validar passeio" << endl;
     cin >> p1 >> p2 >> p3 >> p4 >> p5;
     if (matriz_adj_[p1][p2] == 1 && matriz_adj_[p2][p3] == 1 && matriz_adj_[p3][p4] == 1 && matriz_adj_[p4][p5] == 1){
         cout << "Existe passeio" << endl;
@@ -93,11 +91,15 @@ void FirstGraph::ExistePasseio(){
 
 void FirstGraph::ExisteCaminho(){
     int c1, c2, c3, c4;
-    cout << "Existe caminho de 4 elementos" << endl;
+    cout << "Digite 4 elementos para validar caminho" << endl;
     cin >> c1 >> c2 >> c3 >> c4;
-    if (matriz_adj_[c1][c2] == 1 && matriz_adj_[c2][c3] == 1 && matriz_adj_[c3][c4] == 1){
-        cout << "Existe caminho" << endl;
+    if(c1 != c2 && c1 != c3 && c1 != c4){
+        if (matriz_adj_[c1][c2] == 1 && matriz_adj_[c2][c3] == 1 && matriz_adj_[c3][c4] == 1){
+            cout << "Existe caminho" << endl;
+        } else {
+            cout << "Não existe caminho" << endl;
+        }
     } else {
-        cout << "Não existe caminho" << endl;
+        cout << "Não existe caminho, repete vertices" << endl;
     }
 };
