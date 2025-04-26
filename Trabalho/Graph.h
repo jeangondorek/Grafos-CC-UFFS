@@ -17,13 +17,15 @@ class Graph {
         bool ExisteAresta(Aresta aresta);
         void AdicionaAresta(Aresta aresta);
         void RemoveAresta(Aresta aresta);
+        void RemoveVertice(int v);
+        std::vector<int> VerificaVertices();
         void PrintGraph();
         void DestroyGraph();
         void ExistePasseio();
         bool ExisteCaminho(int v1, int v2, std::vector<int>& marcado_, int num_vertices, int identacao);
         void CarregarGrafoDoArquivo(const char* nome_arquivo);
-        bool Bipartido1();
-        bool Bipartido2();
+        bool Bipartido1(std::vector<int> divisao1, std::vector<int> divisao2, std::vector<int> removidos, int posVertice);
+        bool Bipartido2(std::vector<int> divisao1, std::vector<int> divisao2, std::vector<int> removidos, int posVertice);
 };
 
 #endif

@@ -14,10 +14,11 @@ Graph::Graph(int num_vertices) {
 
 int Graph::NumeroVertices(){
     return num_vertices_;
-};
+}
+
 int Graph::NumeroArestas(){
     return num_arestas_;
-};
+}
 
 bool Graph::ExisteAresta(Aresta aresta){
     if (matriz_adj_[aresta.v1][aresta.v2] == 1){
@@ -25,7 +26,7 @@ bool Graph::ExisteAresta(Aresta aresta){
     }
     
     return false;
-};
+}
 
 void Graph::AdicionaAresta(Aresta aresta){
     if (ExisteAresta(aresta)){
@@ -41,7 +42,7 @@ void Graph::AdicionaAresta(Aresta aresta){
     matriz_adj_[aresta.v1][aresta.v2] = 1;
     matriz_adj_[aresta.v2][aresta.v1] = 1;
     num_arestas_++;
-};
+}
 
 void Graph::RemoveAresta(Aresta aresta){
     if (!ExisteAresta(aresta)){
@@ -52,7 +53,7 @@ void Graph::RemoveAresta(Aresta aresta){
     matriz_adj_[aresta.v1][aresta.v2] = 0;
     matriz_adj_[aresta.v2][aresta.v1] = 0;
     num_arestas_--;
-};
+}
 
 void Graph::PrintGraph() {
     for (int i = 0; i < num_vertices_; i++) {
@@ -76,7 +77,7 @@ void Graph::DestroyGraph(){
     matriz_adj_.clear();
     num_vertices_ = 0;
     num_arestas_ = 0;
-};
+}
 
 void Graph::ExistePasseio(){
     int p1, p2, p3, p4, p5;
@@ -87,7 +88,7 @@ void Graph::ExistePasseio(){
     } else {
         cout << "Não existe passeio" << endl;
     }
-};
+}
 
 bool Graph::ExisteCaminho(int v, int w, std::vector<int>& marcado_, int num_vertices, int identacao) {
     cout << string(identacao * 2, ' ') << "caminho(" << v << ", " << w << ")" << endl;
@@ -105,13 +106,83 @@ bool Graph::ExisteCaminho(int v, int w, std::vector<int>& marcado_, int num_vert
     }
 
     return false;
-};
-
-bool Graph::Bipartido1(){
-    return true;
 }
 
-bool Graph::Bipartido2(){
+void Graph::RemoveVertice(int v) {
+    if (v < 0 || v >= num_vertices_) {
+        cout << "Vertice invalido" << endl;
+        return;
+    }
+
+    for (int i = 0; i < num_vertices_; i++) {
+        matriz_adj_[v][i] = 0;
+        matriz_adj_[i][v] = 0;
+    }
+
+    num_arestas_ -= num_vertices_ - 1;
+    num_vertices_--;
+}
+
+vector<int> Graph::VerificaVertices() {
+    vector<int> vertices;
+    for (int i = 0; i < num_vertices_; i++) {
+        vertices.push_back(i);
+    }
+    return vertices;
+}
+
+bool Graph::Bipartido1(std::vector<int> divisao1, std::vector<int> divisao2, std::vector<int> removidos, int posVertice) {
+    int sizeRem = removidos.size();
+    if (sizeRem == num_vertices_){
+        return true;
+    }
+        
+    int v = Graph::VerificaVertices()[posVertice];
+
+    for (int removido : removidos) {
+        if (removido == v) {
+            return Bipartido1(divisao1, divisao2, removidos, posVertice + 1);
+        }
+    }    
+
+    cout << "Removido vérice: " << v << endl;
+    removidos.push_back(v);
+
+    bool flag = true;
+    for (int i : divisao1) {
+        if (matriz_adj_[v][i] == 1) {
+            flag = false;
+            break;
+        }
+    }
+
+    if (flag) {
+        divisao1.push_back(v); 
+        if (Bipartido1(divisao1, divisao2, removidos, posVertice + 1)) {
+            return true;
+        }
+        divisao1.pop_back(); 
+    }
+
+    flag = true;
+    for (int i : divisao2) {
+        if (matriz_adj_[v][i] == 1) {
+            flag = false;
+            break;
+        }
+    }
+
+    if (flag) {
+        divisao2.push_back(v); 
+        if (Bipartido1(divisao1, divisao2, removidos, posVertice + 1)) {
+            return true;
+        }
+        divisao2.pop_back(); 
+    }
+
     return false;
 }
 
+bool Graph::Bipartido2(vector<int> divisao21, vector<int> divisao22, std::vector<int> removidos, int posVertice){
+    return false;
+}
