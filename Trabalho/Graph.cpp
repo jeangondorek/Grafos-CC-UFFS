@@ -148,15 +148,7 @@ bool Graph::Bipartido1(std::vector<int> divisao1, std::vector<int> divisao2, std
     cout << "Removido vérice: " << v << endl;
     removidos.push_back(v);
 
-    bool flag = true;
-    for (int i : divisao1) {
-        if (matriz_adj_[v][i] == 1) {
-            flag = false;
-            break;
-        }
-    }
-
-    if (flag) {
+    if (ReturnSePodeInserirDivisao(divisao1, v)) {
         divisao1.push_back(v); 
         if (Bipartido1(divisao1, divisao2, removidos, posVertice + 1)) {
             return true;
@@ -164,15 +156,8 @@ bool Graph::Bipartido1(std::vector<int> divisao1, std::vector<int> divisao2, std
         divisao1.pop_back(); 
     }
 
-    flag = true;
-    for (int i : divisao2) {
-        if (matriz_adj_[v][i] == 1) {
-            flag = false;
-            break;
-        }
-    }
 
-    if (flag) {
+    if (ReturnSePodeInserirDivisao(divisao2, v)) {
         divisao2.push_back(v); 
         if (Bipartido1(divisao1, divisao2, removidos, posVertice + 1)) {
             return true;
@@ -181,6 +166,15 @@ bool Graph::Bipartido1(std::vector<int> divisao1, std::vector<int> divisao2, std
     }
 
     return false;
+}
+
+bool Graph::ReturnSePodeInserirDivisao(vector<int> divisao, int v) {
+    for (int i : divisao) {
+        if (matriz_adj_[v][i] == 1) {
+            return false;
+        }
+    }
+    return true;
 }
 
 bool Graph::Bipartido2(vector<int> divisao21, vector<int> divisao22, std::vector<int> removidos, int posVertice){

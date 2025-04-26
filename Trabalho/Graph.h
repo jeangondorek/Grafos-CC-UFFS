@@ -26,6 +26,7 @@ class Graph {
         void CarregarGrafoDoArquivo(const char* nome_arquivo);
         bool Bipartido1(std::vector<int> divisao1, std::vector<int> divisao2, std::vector<int> removidos, int posVertice);
         bool Bipartido2(std::vector<int> divisao1, std::vector<int> divisao2, std::vector<int> removidos, int posVertice);
+        bool ReturnSePodeInserirDivisao(std::vector<int> divisao, int v);
 };
 
 #endif
