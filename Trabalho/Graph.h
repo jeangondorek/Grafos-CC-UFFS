@@ -10,6 +10,7 @@ class Graph {
         int num_arestas_;
         int num_vertices_;
         std::vector<std::vector<int>> matriz_adj_;
+        std::vector<Aresta> lista_arestas_;
     public:
         Graph (int num_vertices);
         int NumeroVertices();
@@ -24,9 +25,9 @@ class Graph {
         void ExistePasseio();
         bool ExisteCaminho(int v1, int v2, std::vector<int>& marcado_, int num_vertices, int identacao);
         void CarregarGrafoDoArquivo(const char* nome_arquivo);
-        bool Bipartido1(std::vector<int> divisao1, std::vector<int> divisao2, std::vector<int> removidos, int posVertice);
-        bool Bipartido2(std::vector<int> divisao1, std::vector<int> divisao2, std::vector<int> removidos, int posVertice);
-        bool ReturnSePodeInserirDivisao(std::vector<int> divisao, int v);
+        bool Bipartido1(std::vector<int> &divisao1, std::vector<int> &divisao2, std::vector<bool> &removidos);
+        bool Bipartido2(std::vector<int> &divisao1, std::vector<int> &divisao2, std::vector<bool> &removidos);
+        bool ReturnSePodeInserirDivisao(const std::vector<int>& divisao, int v);
 };
 
 #endif

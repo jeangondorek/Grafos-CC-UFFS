@@ -101,19 +101,23 @@ int main()  {
                     break;
                 }   
                 case 12: {   
-                    std::vector<int> divisao1, divisao2, removidos, removidos2, divisao21, divisao22;      
-                    if (grafo.Bipartido1(divisao1, divisao2, removidos, 0)) {
+                    std::vector<int> divisao1, divisao2, divisao21, divisao22;
+                    std::vector<bool> removidos(grafo.NumeroVertices(), false);
+                    std::vector<bool> removidos2(grafo.NumeroVertices(), false);
+
+                    if (grafo.Bipartido1(divisao1, divisao2, removidos)) {
                         cout << "\nSIM" << endl;
                     } else {
                         cout << "NAO" << endl;
                     }
-                    if (grafo.Bipartido2(divisao21, divisao22, removidos2, 0)) {
+
+                    if (grafo.Bipartido2(divisao21, divisao22, removidos2)) {
                         cout << "SIM" << endl;
                     } else {
                         cout << "NAO" << endl;
                     }
                     break;
-                } 
+                }
                 case 0:
                     break;
                 default:

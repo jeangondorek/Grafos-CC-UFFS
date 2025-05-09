@@ -29,6 +29,10 @@ bool Graph::ExisteAresta(Aresta aresta){
 }
 
 void Graph::AdicionaAresta(Aresta aresta){
+    for (int i = 0; i < num_vertices_; i++) {
+        matriz_adj_[i].resize(num_vertices_, -1);
+    }
+
     if (ExisteAresta(aresta)){
         cout << "Aresta ja existe, v1: " << aresta.v1 << ", v2: " << aresta.v2 << endl;
         return;
@@ -39,8 +43,9 @@ void Graph::AdicionaAresta(Aresta aresta){
         return;
     }
     
-    matriz_adj_[aresta.v1][aresta.v2] = 1;
-    matriz_adj_[aresta.v2][aresta.v1] = 1;
+    matriz_adj_[aresta.v1][aresta.v2] = aresta.estado ? 1 : 0;
+    matriz_adj_[aresta.v2][aresta.v1] = aresta.estado ? 1 : 0; 
+    lista_arestas_.push_back(aresta);
     num_arestas_++;
 }
 
@@ -131,16 +136,40 @@ vector<int> Graph::VerificaVertices() {
     return vertices;
 }
 
-bool Graph::Bipartido1(std::vector<int> divisao1, std::vector<int> divisao2, std::vector<int> removidos, int posVertice) {
-    int sizeRem = removidos.size();
-    if (sizeRem == num_vertices_){
-        return true;
+bool Graph::Bipartido1(std::vector<int>& divisao1, std::vector<int>& divisao2, std::vector<bool>& removidos) {
+    int v = -1;
+
+    for (int i = 0; i < num_vertices_; i++) {
+        if (!removidos[i]) {
+            v = i;
+            break;
+        }
+    }
+
+    if (v == -1) return true;
+
+    removidos[v] = true;
+
+    if (ReturnSePodeInserirDivisao(divisao1, v)) {
+        divisao1.push_back(v);
+        if (Bipartido1(divisao1, divisao2, removidos)) {
+            return true; 
+        }
+        divisao1.pop_back();
+    }
+
+    if (ReturnSePodeInserirDivisao(divisao2, v)) {
+        divisao2.push_back(v);
+        if (Bipartido1(divisao1, divisao2, removidos)) {
+            return true;
+        }
+        divisao2.pop_back();
     }
 
     return false;
 }
 
-bool Graph::ReturnSePodeInserirDivisao(vector<int> divisao, int v) {
+bool Graph::ReturnSePodeInserirDivisao(const std::vector<int>& divisao, int v) {
     for (int i : divisao) {
         if (matriz_adj_[v][i] == 1) {
             return false;
@@ -149,6 +178,6 @@ bool Graph::ReturnSePodeInserirDivisao(vector<int> divisao, int v) {
     return true;
 }
 
-bool Graph::Bipartido2(vector<int> divisao21, vector<int> divisao22, std::vector<int> removidos, int posVertice){
+bool Graph::Bipartido2(std::vector<int>& divisao1, std::vector<int>& divisao2, std::vector<bool>& removidos) {
     return false;
 }
