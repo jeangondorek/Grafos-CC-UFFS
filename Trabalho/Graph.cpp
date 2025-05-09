@@ -136,34 +136,6 @@ bool Graph::Bipartido1(std::vector<int> divisao1, std::vector<int> divisao2, std
     if (sizeRem == num_vertices_){
         return true;
     }
-        
-    int v = Graph::VerificaVertices()[posVertice];
-
-    for (int removido : removidos) {
-        if (removido == v) {
-            return Bipartido1(divisao1, divisao2, removidos, posVertice + 1);
-        }
-    }    
-
-    cout << "Removido vérice: " << v << endl;
-    removidos.push_back(v);
-
-    if (ReturnSePodeInserirDivisao(divisao1, v)) {
-        divisao1.push_back(v); 
-        if (Bipartido1(divisao1, divisao2, removidos, posVertice + 1)) {
-            return true;
-        }
-        divisao1.pop_back(); 
-    }
-
-
-    if (ReturnSePodeInserirDivisao(divisao2, v)) {
-        divisao2.push_back(v); 
-        if (Bipartido1(divisao1, divisao2, removidos, posVertice + 1)) {
-            return true;
-        }
-        divisao2.pop_back(); 
-    }
 
     return false;
 }
