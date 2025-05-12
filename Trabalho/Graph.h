@@ -28,6 +28,7 @@ class Graph {
         bool Bipartido1(std::vector<int> &divisao1, std::vector<int> &divisao2, std::vector<bool> &removidos);
         bool Bipartido2(std::vector<int> &divisao1, std::vector<int> &divisao2, std::vector<bool> &removidos);
         bool ReturnSePodeInserirDivisao(const std::vector<int>& divisao, int v);
+        bool DFSVerificaBipartido(int v, std::vector<int>& conjunto);
 };
 
 #endif
