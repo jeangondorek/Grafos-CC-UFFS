@@ -96,7 +96,7 @@ int main()  {
                     break;
                 }   
                 case 11: {              
-                    grafo = Graph(10);
+                    //grafo = Graph(10);
                     grafo.CarregarGrafoDoArquivo("grafo.txt");
                     break;
                 }   

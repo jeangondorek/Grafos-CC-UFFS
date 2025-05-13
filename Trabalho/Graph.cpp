@@ -179,5 +179,40 @@ bool Graph::ReturnSePodeInserirDivisao(const std::vector<int>& divisao, int v) {
 }
 
 bool Graph::Bipartido2(std::vector<int>& divisao1, std::vector<int>& divisao2, std::vector<bool>& removidos) {
-    return false;
+    std::vector<int> conjunto(num_vertices_, -1);
+
+    for (int i = 0; i < num_vertices_; i++) {
+        if (conjunto[i] == -1) {
+            conjunto[i] = 0;
+            if (!DFSVerificaBipartido(i, conjunto)) {
+                return false;
+            }
+        }
+    }
+
+    for (int i = 0; i < num_vertices_; i++) {
+        if (conjunto[i] == 0) {
+            divisao1.push_back(i);
+        } else if (conjunto[i] == 1) {
+            divisao2.push_back(i);
+        }
+    }
+
+    return true;
+}
+
+bool Graph::DFSVerificaBipartido(int v, std::vector<int>& conjunto) {
+    for (int u = 0; u < num_vertices_; u++) {
+        if (matriz_adj_[v][u] == 1) {
+            if (conjunto[u] == -1) {
+                conjunto[u] = 1 - conjunto[v];
+                if (!DFSVerificaBipartido(u, conjunto)) {
+                    return false;
+                }
+            } else if (conjunto[u] == conjunto[v]) {
+                return false;
+            }
+        }
+    }
+    return true;
 }
