@@ -148,35 +148,52 @@ vector<int> Graph::VerificaVertices() {
     return vertices;
 }
 
-bool Graph::Bipartido1(std::vector<int>& divisao1, std::vector<int>& divisao2, std::vector<bool>& removidos, int v) {
+bool Graph::Bipartido1(std::vector<int>& divisao1, std::vector<int>& divisao2, std::vector<bool>& removidos, int dummy) {
+    // Encontra o menor índice ainda não removido
+    int v = -1;
+    for (int i = 0; i < num_vertices_; ++i) {
+        if (!removidos[i]) {
+            v = i;
+            break;
+        }
+    }
+
+    // Base da recursão: todos os vértices foram removidos
+    if (v == -1) return true;
+
     removidos[v] = true;
 
-    if (ReturnSePodeInserirDivisao(divisao1, v)) {
+    // Tenta colocar em divisao1
+    bool pode_div1 = true;
+    for (int u : divisao1) {
+        if (matriz_adj_[v][u] == 1) {
+            pode_div1 = false;
+            break;
+        }
+    }
+
+    if (pode_div1) {
         divisao1.push_back(v);
-        for (int u = 0; u < num_vertices_; ++u) {
-            if (matriz_adj_[v][u] == 1 && !removidos[u]) {
-                if (!Bipartido1(divisao1, divisao2, removidos, u)) {
-                    divisao1.pop_back();
-                    return false;
-                }
-            }
-        }
-        return true;
+        if (Bipartido1(divisao1, divisao2, removidos, 0)) return true;
+        divisao1.pop_back(); // backtrack
     }
 
-    if (ReturnSePodeInserirDivisao(divisao2, v)) {
+    // Tenta colocar em divisao2
+    bool pode_div2 = true;
+    for (int u : divisao2) {
+        if (matriz_adj_[v][u] == 1) {
+            pode_div2 = false;
+            break;
+        }
+    }
+
+    if (pode_div2) {
         divisao2.push_back(v);
-        for (int u = 0; u < num_vertices_; ++u) {
-            if (matriz_adj_[v][u] == 1 && !removidos[u]) {
-                if (!Bipartido1(divisao1, divisao2, removidos, u)) {
-                    divisao2.pop_back();
-                    return false;
-                }
-            }
-        }
-        return true;
+        if (Bipartido1(divisao1, divisao2, removidos, 0)) return true;
+        divisao2.pop_back(); // backtrack
     }
 
+    removidos[v] = false;
     return false;
 }
 
