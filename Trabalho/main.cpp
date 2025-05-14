@@ -96,7 +96,6 @@ int main()  {
                     break;
                 }   
                 case 11: {              
-                    //grafo = Graph(10);
                     grafo.CarregarGrafoDoArquivo("grafo.txt");
                     break;
                 }   
@@ -105,7 +104,7 @@ int main()  {
                     std::vector<bool> removidos(grafo.NumeroVertices(), false);
                     std::vector<bool> removidos2(grafo.NumeroVertices(), false);
 
-                    if (grafo.Bipartido1(divisao1, divisao2, removidos)) {
+                    if (grafo.Bipartido1(divisao1, divisao2, removidos, 0)) {
                         cout << "\nSIM" << endl;
                     } else {
                         cout << "NAO" << endl;
