@@ -1,3 +1,15 @@
+/*
+ * Trabalho 1 - Zoologico
+ *
+ * GEN254 - Grafos - 2025/1
+ *
+ * Nome:      Jean Gondorek
+ * Matricula: 1921101059
+ * 
+ * Nome:      Gustavo Sutil
+ * Matricula: 2111100025
+ */
+
 #include "Graph.h"
 #include "Aresta.h"
 #include <iostream>
@@ -107,7 +119,7 @@ int main()  {
                     if (grafo.Bipartido1(divisao1, divisao2, removidos, 0)) {
                         cout << "\nSIM" << endl;
                     } else {
-                        cout << "NAO" << endl;
+                        cout << "\nNAO" << endl;
                     }
 
                     if (grafo.Bipartido2(divisao21, divisao22, removidos2)) {

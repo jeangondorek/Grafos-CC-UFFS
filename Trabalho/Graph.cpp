@@ -1,3 +1,15 @@
+/*
+ * Trabalho 1 - Zoologico
+ *
+ * GEN254 - Grafos - 2025/1
+ *
+ * Nome:      Jean Gondorek
+ * Matricula: 1921101059
+ * 
+ * Nome:      Gustavo Sutil
+ * Matricula: 2111100025
+ */
+
 #include "Graph.h"
 #include <iostream>
 
