@@ -148,52 +148,28 @@ vector<int> Graph::VerificaVertices() {
     return vertices;
 }
 
-bool Graph::Bipartido1(std::vector<int>& divisao1, std::vector<int>& divisao2, std::vector<bool>& removidos, int dummy) {
-    // Encontra o menor índice ainda não removido
-    int v = -1;
-    for (int i = 0; i < num_vertices_; ++i) {
-        if (!removidos[i]) {
-            v = i;
-            break;
-        }
-    }
-
-    // Base da recursão: todos os vértices foram removidos
-    if (v == -1) return true;
-
+bool Graph::Bipartido1(std::vector<int>& divisao1, std::vector<int>& divisao2, std::vector<bool>& removidos, int v) {
     removidos[v] = true;
 
-    // Tenta colocar em divisao1
-    bool pode_div1 = true;
-    for (int u : divisao1) {
-        if (matriz_adj_[v][u] == 1) {
-            pode_div1 = false;
+    for (int u = 0; u < num_vertices_; ++u) {
+        if (!removidos[u]) {
+            if (!Bipartido1(divisao1, divisao2, removidos, u)) {
+                return false;
+            }
             break;
         }
     }
 
-    if (pode_div1) {
+    if (ReturnSePodeInserirDivisao(divisao1, v)) {
         divisao1.push_back(v);
-        if (Bipartido1(divisao1, divisao2, removidos, 0)) return true;
-        divisao1.pop_back(); // backtrack
+        return true;
     }
 
-    // Tenta colocar em divisao2
-    bool pode_div2 = true;
-    for (int u : divisao2) {
-        if (matriz_adj_[v][u] == 1) {
-            pode_div2 = false;
-            break;
-        }
-    }
-
-    if (pode_div2) {
+    if (ReturnSePodeInserirDivisao(divisao2, v)) {
         divisao2.push_back(v);
-        if (Bipartido1(divisao1, divisao2, removidos, 0)) return true;
-        divisao2.pop_back(); // backtrack
+        return true;
     }
 
-    removidos[v] = false;
     return false;
 }
 
