@@ -10,12 +10,12 @@
  * Matricula: 2111100025
  */
 
-#include "Graph.h"
+#include "Grafo.h"
 #include <iostream>
 
 using namespace std;
 
-Graph::Graph(int num_vertices) {
+Grafo::Grafo(int num_vertices) {
     num_vertices_ = num_vertices;
     num_arestas_ = 0;
     matriz_adj_.resize(num_vertices);
@@ -24,15 +24,15 @@ Graph::Graph(int num_vertices) {
     }
 }
 
-int Graph::NumeroVertices(){
+int Grafo::NumeroVertices(){
     return num_vertices_;
 }
 
-int Graph::NumeroArestas(){
+int Grafo::NumeroArestas(){
     return num_arestas_;
 }
 
-bool Graph::ExisteAresta(Aresta aresta){
+bool Grafo::ExisteAresta(Aresta aresta){
     if (matriz_adj_[aresta.v1][aresta.v2] == 1){
         return true;
     }
@@ -40,7 +40,7 @@ bool Graph::ExisteAresta(Aresta aresta){
     return false;
 }
 
-void Graph::AdicionaAresta(Aresta aresta){
+void Grafo::AdicionaAresta(Aresta aresta){
     for (int i = 0; i < num_vertices_; i++) {
         matriz_adj_[i].resize(num_vertices_, -1);
     }
@@ -61,7 +61,7 @@ void Graph::AdicionaAresta(Aresta aresta){
     num_arestas_++;
 }
 
-void Graph::RemoveAresta(Aresta aresta){
+void Grafo::RemoveAresta(Aresta aresta){
     if (!ExisteAresta(aresta)){
         cout << "Aresta não existe";
         return;
@@ -72,7 +72,7 @@ void Graph::RemoveAresta(Aresta aresta){
     num_arestas_--;
 }
 
-void Graph::PrintGraph() {
+void Grafo::PrintGraph() {
     for (int i = 0; i < num_vertices_; i++) {
         bool temVizinho = false;
         for (int j = 0; j < num_vertices_; j++) {
@@ -90,13 +90,13 @@ void Graph::PrintGraph() {
     }
 }
 
-void Graph::DestroyGraph(){
+void Grafo::DestroyGraph(){
     matriz_adj_.clear();
     num_vertices_ = 0;
     num_arestas_ = 0;
 }
 
-void Graph::ExistePasseio(){
+void Grafo::ExistePasseio(){
     int p1, p2, p3, p4, p5;
     cout << "Digite 5 elementos para validar passeio" << endl;
     cin >> p1 >> p2 >> p3 >> p4 >> p5;
@@ -107,7 +107,7 @@ void Graph::ExistePasseio(){
     }
 }
 
-bool Graph::ExisteCaminho(int v, int w, std::vector<int>& marcado_, int num_vertices, int identacao) {
+bool Grafo::ExisteCaminho(int v, int w, std::vector<int>& marcado_, int num_vertices, int identacao) {
     cout << string(identacao * 2, ' ') << "caminho(" << v << ", " << w << ")" << endl;
 
     marcado_[v] = 1;
@@ -125,7 +125,7 @@ bool Graph::ExisteCaminho(int v, int w, std::vector<int>& marcado_, int num_vert
     return false;
 }
 
-void Graph::RemoveVertice(int v) {
+void Grafo::RemoveVertice(int v) {
     if (v < 0 || v >= num_vertices_) {
         cout << "Vertice invalido" << endl;
         return;
@@ -140,7 +140,7 @@ void Graph::RemoveVertice(int v) {
     num_vertices_--;
 }
 
-vector<int> Graph::VerificaVertices() {
+vector<int> Grafo::VerificaVertices() {
     vector<int> vertices;
     for (int i = 0; i < num_vertices_; i++) {
         vertices.push_back(i);
@@ -148,7 +148,7 @@ vector<int> Graph::VerificaVertices() {
     return vertices;
 }
 
-bool Graph::Bipartido1(std::vector<int>& divisao1, std::vector<int>& divisao2, std::vector<bool>& removidos, int v) {
+bool Grafo::Bipartido1(std::vector<int>& divisao1, std::vector<int>& divisao2, std::vector<bool>& removidos, int v) {
     removidos[v] = true;
 
     for (int u = 0; u < num_vertices_; ++u) {
@@ -173,7 +173,7 @@ bool Graph::Bipartido1(std::vector<int>& divisao1, std::vector<int>& divisao2, s
     return false;
 }
 
-bool Graph::ReturnSePodeInserirDivisao(const std::vector<int>& divisao, int v) {
+bool Grafo::ReturnSePodeInserirDivisao(const std::vector<int>& divisao, int v) {
     for (int i : divisao) {
         if (matriz_adj_[v][i] == 1) {
             return false;
@@ -182,7 +182,7 @@ bool Graph::ReturnSePodeInserirDivisao(const std::vector<int>& divisao, int v) {
     return true;
 }
 
-bool Graph::Bipartido2(std::vector<int>& divisao1, std::vector<int>& divisao2, std::vector<bool>& removidos) {
+bool Grafo::Bipartido2(std::vector<int>& divisao1, std::vector<int>& divisao2, std::vector<bool>& removidos) {
     std::vector<int> conjunto(num_vertices_, -1);
 
     for (int i = 0; i < num_vertices_; i++) {
@@ -205,7 +205,7 @@ bool Graph::Bipartido2(std::vector<int>& divisao1, std::vector<int>& divisao2, s
     return true;
 }
 
-bool Graph::DFSVerificaBipartido(int v, std::vector<int>& conjunto) {
+bool Grafo::DFSVerificaBipartido(int v, std::vector<int>& conjunto) {
     for (int u = 0; u < num_vertices_; u++) {
         if (matriz_adj_[v][u] == 1) {
             if (conjunto[u] == -1) {

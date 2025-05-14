@@ -10,7 +10,7 @@
  * Matricula: 2111100025
  */
 
-#include "Graph.h"
+#include "Grafo.h"
 #include "Aresta.h"
 #include <iostream>
 
@@ -24,7 +24,7 @@ int main()  {
         int vertices = 0;
         int v1, v2;
 
-        Graph grafo(vertices);
+        Grafo grafo(vertices);
 
         while (expression != 0) {
 
@@ -50,7 +50,7 @@ int main()  {
                     grafo.DestroyGraph();
                     cout << "Crie o grafo digitando o número de vértices: " << endl;
                     cin >> vertices; 
-                    grafo = Graph(vertices); 
+                    grafo = Grafo(vertices); 
                     break;
                 }
                 case 2: {

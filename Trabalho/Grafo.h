@@ -10,21 +10,21 @@
  * Matricula: 2111100025
  */
 
-#ifndef GRAPH_H
-#define GRAPH_H
+#ifndef GRAFO_H
+#define GRAFO_H
 
 #include "Aresta.h"
 
 #include <vector>
 
-class Graph {
+class Grafo {
     private:
         int num_arestas_;
         int num_vertices_;
         std::vector<std::vector<int>> matriz_adj_;
         std::vector<Aresta> lista_arestas_;
     public:
-        Graph (int num_vertices);
+        Grafo (int num_vertices);
         int NumeroVertices();
         int NumeroArestas();
         bool ExisteAresta(Aresta aresta);

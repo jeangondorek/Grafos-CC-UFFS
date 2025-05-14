@@ -10,7 +10,7 @@
  * Matricula: 2111100025
  */
 
-#include "Graph.h"
+#include "Grafo.h"
 #include "Aresta.h"
 #include <fstream>
 #include <sstream>
@@ -18,7 +18,7 @@
 
 using namespace std;
 
-void Graph::CarregarGrafoDoArquivo(const char* nome_arquivo) {
+void Grafo::CarregarGrafoDoArquivo(const char* nome_arquivo) {
     std::ifstream arquivo(nome_arquivo); 
     if (!arquivo.is_open()) {
         std::cerr << "Erro ao abrir o arquivo: " << nome_arquivo << std::endl;
@@ -37,7 +37,7 @@ void Graph::CarregarGrafoDoArquivo(const char* nome_arquivo) {
         }
 
         this->DestroyGraph(); // Limpa estrutura atual
-        *this = Graph(num_grupos); // Recria o grafo com novo número de grupos
+        *this = Grafo(num_grupos); // Recria o grafo com novo número de grupos
     }
 
     // Lê as relações entre os grupos
