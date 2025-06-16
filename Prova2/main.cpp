@@ -29,16 +29,10 @@ int main()  {
         std::vector<bool> removidos(grafo.NumeroVertices(), false);
         std::vector<bool> removidos2(grafo.NumeroVertices(), false);
 
-        if (grafo.Bipartido1(divisao1, divisao2, removidos, 0)) {
-            cout << "\nSIM" << endl;
+        if (grafo.EhFortementeConexo()) {
+            cout << "O digrafo é fortemente conexo." << endl;
         } else {
-            cout << "NAO" << endl;
-        }
-
-        if (grafo.Bipartido2(divisao21, divisao22, removidos2)) {
-            cout << "SIM" << endl;
-        } else {
-            cout << "NAO" << endl;
+            cout << "O digrafo NÃO é fortemente conexo." << endl;
         }
     
     } catch (const exception &e)  {

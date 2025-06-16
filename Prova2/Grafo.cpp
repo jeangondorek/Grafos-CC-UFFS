@@ -132,75 +132,37 @@ vector<int> Grafo::VerificaVertices() {
     return vertices;
 }
 
-bool Grafo::Bipartido1(std::vector<int>& divisao1, std::vector<int>& divisao2, std::vector<bool>& removidos, int v) {
-    removidos[v] = true;
-
-    for (int u = 0; u < num_vertices_; ++u) {
-        if (!removidos[u]) {
-            if (!Bipartido1(divisao1, divisao2, removidos, u)) {
-                return false;
-            }
-            break;
-        }
-    }
-
-    if (ReturnSePodeInserirDivisao(divisao1, v)) {
-        divisao1.push_back(v);
-        return true;
-    }
-
-    if (ReturnSePodeInserirDivisao(divisao2, v)) {
-        divisao2.push_back(v);
-        return true;
-    }
-
-    return false;
-}
-
-bool Grafo::ReturnSePodeInserirDivisao(const std::vector<int>& divisao, int v) {
-    for (int i : divisao) {
-        if (matriz_adj_[v][i] == 1) {
-            return false;
-        }
-    }
-    return true;
-}
-
-bool Grafo::Bipartido2(std::vector<int>& divisao1, std::vector<int>& divisao2, std::vector<bool>& removidos) {
-    std::vector<int> conjunto(num_vertices_, -1);
-
-    for (int i = 0; i < num_vertices_; i++) {
-        if (conjunto[i] == -1) {
-            conjunto[i] = 0;
-            if (!DFSVerificaBipartido(i, conjunto)) {
-                return false;
-            }
-        }
-    }
-
-    for (int i = 0; i < num_vertices_; i++) {
-        if (conjunto[i] == 0) {
-            divisao1.push_back(i);
-        } else if (conjunto[i] == 1) {
-            divisao2.push_back(i);
-        }
-    }
-
-    return true;
-}
-
-bool Grafo::DFSVerificaBipartido(int v, std::vector<int>& conjunto) {
+void Grafo::DFS(int v, std::vector<bool>& visitado, const std::vector<std::vector<int>>& matriz) {
+    visitado[v] = true;
     for (int u = 0; u < num_vertices_; u++) {
-        if (matriz_adj_[v][u] == 1) {
-            if (conjunto[u] == -1) {
-                conjunto[u] = 1 - conjunto[v];
-                if (!DFSVerificaBipartido(u, conjunto)) {
-                    return false;
-                }
-            } else if (conjunto[u] == conjunto[v]) {
-                return false;
+        if (matriz[v][u] == 1 && !visitado[u]) {
+            DFS(u, visitado, matriz);
+        }
+    }
+}
+    
+bool Grafo::EhFortementeConexo() {
+    std::vector<bool> visitado(num_vertices_, false);
+
+    DFS(0, visitado, matriz_adj_);
+    for (bool v : visitado) {
+        if (!v) return false; 
+    }
+
+    std::vector<std::vector<int>> transposto(num_vertices_, std::vector<int>(num_vertices_, 0));
+    for (int i = 0; i < num_vertices_; i++) {
+        for (int j = 0; j < num_vertices_; j++) {
+            if (matriz_adj_[i][j] == 1) {
+                transposto[j][i] = 1;
             }
         }
     }
+
+    std::fill(visitado.begin(), visitado.end(), false);
+    DFS(0, visitado, transposto);
+    for (bool v : visitado) {
+        if (!v) return false; 
+    }
+
     return true;
 }
