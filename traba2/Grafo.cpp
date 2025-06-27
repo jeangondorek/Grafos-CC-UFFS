@@ -13,7 +13,7 @@
 #include <iostream>
 #include <set>
 #include <vector>
-
+#include <algorithm>
 
 using namespace std;
 
@@ -55,55 +55,57 @@ void Grafo::AdicionaAresta(Aresta aresta){
 
     lista_arestas_.push_back(aresta);
     num_arestas_++;
+
+    matriz_adj_[aresta.v1][aresta.v2] = 1;
+    matriz_adj_[aresta.v2][aresta.v1] = 1;
 }
 
 void Grafo::constroi_coloracao_1(){
+    vector<int> cores(num_vertices_, 0);
     int qtdCores = 0;
-    vector<int> cores;
-
-    for (int j = 0; j < num_vertices_; j++){
-        cores.push_back(0);
-    }
-
-    qtdCores = 1;
-    cores[0] = 1;
 
     for (int i = 0; i < num_vertices_; i++){
         set<int> coresaux;
         for (int u = 0; u < num_vertices_; u++){
-            if (matriz_adj_[i][u] == 1){
+            if (matriz_adj_[i][u] == 1 && cores[u] != 0) {
                 coresaux.insert(cores[u]);
             }
         }
-        int menor = 10000;
 
-        for (int u = 1; u < num_vertices_; u++){
-            if (coresaux.count(u) == 0){
-                if (menor > u){
-                    cores[i] = u;
-                    qtdCores = qtdCores + 1;
-                    break;
-                }
-            }
+        int menorcor = 1;
+        while (coresaux.count(menorcor) != 0){
+            menorcor++;
         }
-
-        cores[i] = menor;
-        qtdCores = qtdCores + 1;
+        cores[i] = menorcor;
+        if (menorcor > qtdCores) {
+            qtdCores = menorcor;
+        }
     }
 
     cout << "Numero de cores: " << qtdCores << endl;
 
     for(int k = 1; k <= qtdCores; k++){
         cout << "Cor " << k << ": ";
-        for (int i = 0; i < cores.size(); i++)
+        for (int i = 0; i < num_vertices_; i++)
         {
-            cout << i;
+            if (cores[i] == k) {
+                cout << " " << i;
+            }
         }
         cout << endl;
-    
     }
 }
 
-void Grafo::constroi_coloracao_2(){
+void Grafo::constroi_coloracao_2() {
 
+}
+
+int Grafo::grau(int v) {
+    int grau = 0;
+    for (int i = 0; i < num_vertices_; i++) {
+        if (matriz_adj_[v][i] == 1) {
+            grau++;
+        }
+    }
+    return grau;
 }

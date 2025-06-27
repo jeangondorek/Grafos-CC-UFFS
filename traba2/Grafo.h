@@ -30,6 +30,7 @@ class Grafo {
         void AdicionaAresta(Aresta aresta);
         void constroi_coloracao_1();
         void constroi_coloracao_2();
+        int Grafo::grau(int v);
 };
 
 #endif

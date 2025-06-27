@@ -41,10 +41,10 @@ int main()  {
             grafo.constroi_coloracao_1();
         }
         
-//        if (exec == "A"){
-  //          grafo.constroi_coloracao_1();
-    //        grafo.constroi_coloracao_2();
-      //  }
+        if (exec == "A"){
+            grafo.constroi_coloracao_1();
+            grafo.constroi_coloracao_2();
+        }
     
     } catch (const exception &e)  {
         cerr << "Execption: " << e.what() << endl;
